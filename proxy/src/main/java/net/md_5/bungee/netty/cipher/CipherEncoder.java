@@ -6,7 +6,6 @@ import io.netty.handler.codec.MessageToByteEncoder;
 import lombok.RequiredArgsConstructor;
 import net.md_5.bungee.BungeeCipher;
 
-
 @RequiredArgsConstructor
 public class CipherEncoder extends MessageToByteEncoder<ByteBuf>
 {

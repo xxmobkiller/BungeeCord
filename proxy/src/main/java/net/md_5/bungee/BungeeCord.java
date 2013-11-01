@@ -163,10 +163,10 @@ public class BungeeCord extends ProxyServer
 
         if ( !NativeCipher.load() )
         {
-            logger.warning("NOTE: Failed to load native code. Falling back to Java cipher.");
+            logger.warning( "NOTE: Failed to load native code. Falling back to Java cipher." );
         } else
         {
-            logger.info("Native code loaded.");
+            logger.info( "Native code loaded." );
         }
     }
 
