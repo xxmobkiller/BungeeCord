@@ -1,5 +1,6 @@
 package net.md_5.bungee;
 
+import com.google.common.io.ByteStreams;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.Getter;
@@ -8,58 +9,48 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.file.Files;
 import java.security.GeneralSecurityException;
 
 public class NativeCipher implements BungeeCipher
 {
 
-    private boolean forEncryption;
-    private byte[] iv;
-
     @Getter
     private final NativeCipherImpl nativeCipher = new NativeCipherImpl();
-    private static boolean loaded = false;
+    private boolean forEncryption;
+    private byte[] iv;
+    /*============================================================================*/
+    private static boolean loaded;
+    private static final String NAME = "bungeecord-native-1.7-SNAPSHOT";
 
     private long pointer;
 
     public static boolean load()
     {
-        if ( loaded )
+        if ( !loaded )
         {
-            return loaded;
+            try ( InputStream lib = BungeeCipher.class.getClassLoader().getResourceAsStream( "lib/amd64-Linux-gpp/jni/lib" + NAME + ".so" ) )
+            {
+                if ( lib == null )
+                {
+                    // If we are in a unit test we can try loading it directly
+                    System.loadLibrary( NAME );
+                } else
+                {
+                    // Else we will create and copy it to a temp file
+                    File temp = File.createTempFile( NAME, ".so" );
+                    try ( OutputStream outputStream = new FileOutputStream( temp ) )
+                    {
+                        ByteStreams.copy( lib, outputStream );
+                        System.load( temp.getPath() );
+                    }
+                }
+                loaded = true;
+            } catch ( Throwable t )
+            {
+            }
         }
 
-        try
-        {
-            String file = "libbungeecord-native-1.7-SNAPSHOT.so";
-            InputStream lib = BungeeCipher.class.getClassLoader().getResourceAsStream( "lib/amd64-Linux-gpp/jni/" + file );
-            if ( lib == null )
-            {
-                NativeCipher.loaded = true;
-                System.loadLibrary( "bungeecord-native-1.7-SNAPSHOT" );
-                return true; // ssssh, we are inside of cipher tests!
-            }
-            File dir = Files.createTempDirectory( "bungee" ).toFile();
-            OutputStream outputStream
-                    = new FileOutputStream( new File( dir, file ) );
-
-            int read;
-            byte[] bytes = new byte[ 1024 ];
-
-            while ( ( read = lib.read( bytes ) ) != -1 )
-            {
-                outputStream.write( bytes, 0, read );
-            }
-
-            System.load( new File( dir.getPath(), file ).getPath() );
-            NativeCipher.loaded = true;
-            return true;
-        } catch ( Throwable ex )
-        {
-            ex.printStackTrace();
-            return false;
-        }
+        return loaded;
     }
 
     public static boolean isLoaded()
