@@ -40,6 +40,7 @@
                 <version>2.1-trygvis-1</version>
                 <extensions>true</extensions>
                 <configuration>
+                    <skip>true</skip>
                     <java>
                         <include>true</include>
                     </java>
@@ -65,8 +66,8 @@
             <id>native-code</id>
             <activation>
                 <os>
-                    <family>!Linux</family>
-                    <arch>!x64</arch>
+                    <family>Linux</family>
+                    <arch>amd64</arch>
                 </os>
             </activation>
             <build>
@@ -75,7 +76,7 @@
                         <groupId>io.trygvis.usb</groupId>
                         <artifactId>maven-nar-plugin</artifactId>
                         <configuration>
-                            <skip>true</skip>
+                            <skip>false</skip>
                         </configuration>
                     </plugin>
                 </plugins>
