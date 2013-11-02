@@ -17,9 +17,9 @@ jlong Java_net_md_15_bungee_NativeCipherImpl_init
     AES_set_encrypt_key(key_bytes, key_length, aes_key);
 
     if (isKeyCopy) {
-        (*env)->ReleaseByteArrayElements(env, key, key_bytes, JNI_ABORT);
+        (*env)->ReleaseByteArrayElements(env, key, (jbyte*)key_bytes, JNI_ABORT);
     }
-    return aes_key;
+    return (long) aes_key;
 }
 void Java_net_md_15_bungee_NativeCipherImpl_free
 (JNIEnv* env, jobject obj, jlong key)
@@ -30,7 +30,6 @@ void Java_net_md_15_bungee_NativeCipherImpl_cipher
 (JNIEnv* env, jobject obj, jboolean forEncryption, jlong key, jbyteArray iv, jlong in, jlong out, jint length)
 {
     AES_KEY *aes_key = (AES_KEY*)key;
-    jboolean isKeyCopy;
 
     size_t buffer_length = (size_t) length;
 

@@ -3,7 +3,6 @@ package net.md_5.bungee;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.Getter;
-
 import javax.crypto.SecretKey;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -33,12 +32,12 @@ public class NativeCipher implements BungeeCipher
 
         try
         {
-            String file = "libbungeecord-native-1.0.so";
+            String file = "libbungeecord-native-1.7-SNAPSHOT.so";
             InputStream lib = BungeeCipher.class.getClassLoader().getResourceAsStream( "lib/amd64-Linux-gpp/jni/" + file );
             if ( lib == null )
             {
                 NativeCipher.loaded = true;
-                System.loadLibrary( "bungeecord-native-1.0" );
+                System.loadLibrary( "bungeecord-native-1.7-SNAPSHOT" );
                 return true; // ssssh, we are inside of cipher tests!
             }
             File dir = Files.createTempDirectory( "bungee" ).toFile();
