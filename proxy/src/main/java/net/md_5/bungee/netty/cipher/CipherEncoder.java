@@ -23,5 +23,4 @@ public class CipherEncoder extends MessageToByteEncoder<ByteBuf>
     {
         cipher.free();
     }
-
 }

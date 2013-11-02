@@ -12,7 +12,6 @@ import java.util.Arrays;
 import java.util.Random;
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
-import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import lombok.Getter;
 import net.md_5.bungee.protocol.packet.EncryptionResponse;
