@@ -56,6 +56,14 @@
         </dependency>
         <dependency>
             <groupId>net.md-5</groupId>
+            <artifactId>bungeecord-native</artifactId>
+            <version>${project.version}</version>
+            <classifier>amd64-Linux-gpp-jni</classifier>
+            <type>nar</type>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.md-5</groupId>
             <artifactId>bungeecord-protocol</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
