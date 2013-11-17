@@ -13,15 +13,10 @@
     <groupId>net.md-5</groupId>
     <artifactId>bungeecord-native</artifactId>
     <version>1.7-SNAPSHOT</version>
-    <packaging>nar</packaging>
+    <packaging>jar</packaging>
 
     <name>BungeeCord-Native</name>
     <description>Optional native code to speed up and enhance BungeeCord functionality.</description>
-
-    <properties>
-        <!-- Tests via nar are run in the integration test phase, so turn off the normal test phase. -->
-        <skipTests>true</skipTests>
-    </properties>
 
     <dependencies>
         <dependency>
@@ -31,56 +26,4 @@
             <scope>compile</scope>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>net.md-5</groupId>
-                <artifactId>nar-maven-plugin</artifactId>
-                <version>3.0.0-SpigotMC-1</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <skip>true</skip>
-                    <java>
-                        <include>true</include>
-                    </java>
-                    <linker>
-                        <sysLibs>
-                            <sysLib>
-                                <name>crypto</name>
-                            </sysLib>
-                        </sysLibs>
-                    </linker>
-                    <libraries>
-                        <library>
-                            <type>jni</type>
-                        </library>
-                    </libraries>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
-    <profiles>
-        <profile>
-            <id>native-code</id>
-            <activation>
-                <os>
-                    <family>Linux</family>
-                    <arch>amd64</arch>
-                </os>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>net.md-5</groupId>
-                        <artifactId>nar-maven-plugin</artifactId>
-                        <configuration>
-                            <skip>false</skip>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 </project>

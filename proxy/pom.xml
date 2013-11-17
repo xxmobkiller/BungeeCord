@@ -97,25 +97,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <id>native-code</id>
-            <activation>
-                <os>
-                    <family>Linux</family>
-                    <arch>amd64</arch>
-                </os>
-            </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>net.md-5</groupId>
-                    <artifactId>bungeecord-native</artifactId>
-                    <version>${project.version}</version>
-                    <classifier>amd64-Linux-gpp-jni</classifier>
-                    <scope>runtime</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-    </profiles>
 </project>

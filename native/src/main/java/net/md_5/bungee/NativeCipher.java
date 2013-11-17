@@ -20,7 +20,6 @@ public class NativeCipher implements BungeeCipher
     private byte[] iv;
     /*============================================================================*/
     private static boolean loaded;
-    private static final String NAME = "bungeecord-native-1.7-SNAPSHOT";
 
     private long pointer;
 
@@ -28,21 +27,14 @@ public class NativeCipher implements BungeeCipher
     {
         if ( !loaded )
         {
-            try ( InputStream lib = BungeeCipher.class.getClassLoader().getResourceAsStream( "lib/amd64-Linux-gpp/jni/lib" + NAME + ".so" ) )
+            try ( InputStream lib = BungeeCipher.class.getClassLoader().getResourceAsStream( "native-cipher.so" ) )
             {
-                if ( lib == null )
+                // Else we will create and copy it to a temp file
+                File temp = File.createTempFile( "bungeecord-native-cipher", ".so" );
+                try ( OutputStream outputStream = new FileOutputStream( temp ) )
                 {
-                    // If we are in a unit test we can try loading it directly
-                    System.loadLibrary( NAME );
-                } else
-                {
-                    // Else we will create and copy it to a temp file
-                    File temp = File.createTempFile( NAME, ".so" );
-                    try ( OutputStream outputStream = new FileOutputStream( temp ) )
-                    {
-                        ByteStreams.copy( lib, outputStream );
-                        System.load( temp.getPath() );
-                    }
+                    ByteStreams.copy( lib, outputStream );
+                    System.load( temp.getPath() );
                 }
                 loaded = true;
             } catch ( Throwable t )
