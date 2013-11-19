@@ -32,7 +32,7 @@ public class PingHandler extends PacketHandler
         channel.getHandle().pipeline().addAfter( PipelineUtils.FRAME_DECODER, PipelineUtils.PACKET_DECODER, new MinecraftDecoder( Protocol.STATUS, false ) );
         channel.getHandle().pipeline().addAfter( PipelineUtils.FRAME_PREPENDER, PipelineUtils.PACKET_ENCODER, encoder );
 
-        channel.write( new Handshake( Protocol.PROTOCOL_VERSION, target.getAddress().getHostString(), target.getAddress().getPort(), 1 ) );
+        channel.write( new Handshake( Protocol.PROTOCOL_VERSIONS, target.getAddress().getHostString(), target.getAddress().getPort(), 1 ) );
 
         encoder.setProtocol( Protocol.STATUS );
         channel.write( new StatusRequest() );
