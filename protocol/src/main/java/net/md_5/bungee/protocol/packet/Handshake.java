@@ -15,7 +15,7 @@ import net.md_5.bungee.protocol.AbstractPacketHandler;
 public class Handshake extends DefinedPacket
 {
 
-    private int protocolVersion;
+    private int[] protocolVersion;
     private String host;
     private int port;
     private int requestedProtocol;
@@ -32,10 +32,12 @@ public class Handshake extends DefinedPacket
     @Override
     public void write(ByteBuf buf)
     {
-        writeVarInt( protocolVersion, buf );
+	   for(int protocol : protocolVersion){
+        writeVarInt( protocol, buf );
         writeString( host, buf );
         buf.writeShort( port );
         writeVarInt( requestedProtocol, buf );
+		}
     }
 
     @Override
